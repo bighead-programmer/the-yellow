@@ -329,7 +329,9 @@ export default function Home() {
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </motion.button>
               ))}
-            </nav>
+            </nav><ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
           </motion.div>
         )}
       </AnimatePresence>
@@ -786,7 +788,8 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-medium">Phone</h4>
-                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                      <p className="text-muted-foreground">+263 77 993 1219</p>
+                      <p className="text-muted-foreground">+263 77 682 7857</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -809,7 +812,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-medium">Email</h4>
-                      <p className="text-muted-foreground">hello@theyellow.com</p>
+                      <p className="text-muted-foreground">info@theyellow.top</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -832,7 +835,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-medium">Location</h4>
-                      <p className="text-muted-foreground">123 Innovation Street, Tech City, TC 12345</p>
+                      <p className="text-muted-foreground">396 Arnold Way, Burnside, Bulawayo, Zimbabwe</p>
                     </div>
                   </div>
                 </div>
