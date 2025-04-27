@@ -551,7 +551,6 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <game-like-graphics> {Animated game scene}/>
       <section id="projects" ref={projectsRef} className="py-20 bg-muted/30">
         <div className="container mx-auto px-4">
           <motion.div
