@@ -9,6 +9,11 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { useMobile } from "@/hooks/use-mobile"
 
+// First, add the import for the server action at the top of the file
+import { submitContactForm } from "./actions"
+// Add the import for the FormResponse component at the top of the file
+import { FormResponse } from "@/components/form-response"
+
 // Custom cursor component
 function CustomCursor() {
   const cursorRef = useRef(null)
@@ -197,6 +202,8 @@ export default function Home() {
   const isMobile = useMobile()
   const [activeSection, setActiveSection] = useState("home")
   const [scrollY, setScrollY] = useState(0)
+  // Add state for form submission inside the Home component, before the return statement:
+  const [formState, setFormState] = useState<{ success?: boolean; message?: string } | null>(null)
 
   // Refs for each section
   const homeRef = useRef(null)
@@ -304,7 +311,7 @@ export default function Home() {
       </header>
 
       {/* Mobile Menu */}
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -314,13 +321,13 @@ export default function Home() {
             className="fixed inset-0 z-40 bg-white dark:bg-black pt-20"
           >
             <nav className="container mx-auto px-4 py-8 flex flex-col gap-6">
-              {["home", "services", "projects", "about", "contact"].map((item) => (
+              {["home", "services", "projects", "about", "contact"].map((item, index) => (
                 <motion.button
                   key={item}
                   onClick={() => scrollToSection(item)}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.1 * ["home", "services", "projects", "about", "contact"].indexOf(item) }}
+                  transition={{ delay: 0.1 * index }}
                   className={cn(
                     "text-2xl font-bold text-left py-2 border-b border-yellow-500/20",
                     activeSection === item ? "text-yellow-500" : "text-foreground",
@@ -329,9 +336,7 @@ export default function Home() {
                   {item.charAt(0).toUpperCase() + item.slice(1)}
                 </motion.button>
               ))}
-            </nav><ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
@@ -709,7 +714,20 @@ export default function Home() {
               className="bg-background rounded-2xl p-8 shadow-lg border border-yellow-500/20"
             >
               <h3 className="text-2xl font-bold mb-6">Send us a message</h3>
-              <form className="space-y-6">
+
+              <form
+                action={async (formData) => {
+                  const result = await submitContactForm(formData)
+                  setFormState(result)
+                  // Reset form if successful
+                  if (result.success) {
+                    const form = document.getElementById("contact-form") as HTMLFormElement
+                    if (form) form.reset()
+                  }
+                }}
+                id="contact-form"
+                className="space-y-6"
+              >
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label htmlFor="name" className="text-sm font-medium">
@@ -717,6 +735,8 @@ export default function Home() {
                     </label>
                     <input
                       id="name"
+                      name="name"
+                      required
                       className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       placeholder="Your name"
                     />
@@ -727,7 +747,9 @@ export default function Home() {
                     </label>
                     <input
                       id="email"
+                      name="email"
                       type="email"
+                      required
                       className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-yellow-500"
                       placeholder="Your email"
                     />
@@ -739,6 +761,8 @@ export default function Home() {
                   </label>
                   <input
                     id="subject"
+                    name="subject"
+                    required
                     className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     placeholder="Subject"
                   />
@@ -749,13 +773,24 @@ export default function Home() {
                   </label>
                   <textarea
                     id="message"
+                    name="message"
                     rows={5}
+                    required
                     className="w-full px-4 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-yellow-500"
                     placeholder="Your message"
                   />
                 </div>
-                <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">Send Message</Button>
+                <Button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
+                  Send Message
+                </Button>
               </form>
+              {formState && (
+                <FormResponse
+                  success={formState.success || false}
+                  message={formState.message || ""}
+                  onClose={() => setFormState(null)}
+                />
+              )}
             </motion.div>
 
             <motion.div
@@ -784,12 +819,10 @@ export default function Home() {
                       >
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                       </svg>
-                      
                     </div>
                     <div>
                       <h4 className="font-medium">Phone</h4>
-                      <p className="text-muted-foreground">+263 77 993 1219</p>
-                      <p className="text-muted-foreground">+263 77 682 7857</p>
+                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
@@ -835,7 +868,7 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-medium">Location</h4>
-                      <p className="text-muted-foreground">396 Arnold Way, Burnside, Bulawayo, Zimbabwe</p>
+                      <p className="text-muted-foreground">396 Arnold Way burnside, Bulawayo, Zimbabwe</p>
                     </div>
                   </div>
                 </div>
@@ -1015,13 +1048,35 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-bold mb-6">Newsletter</h4>
               <p className="text-gray-400 mb-4">Subscribe to our newsletter to receive updates and news.</p>
-              <form className="space-y-4">
+              <form
+                action={async (formData) => {
+                  const email = formData.get("email")
+                  if (email) {
+                    // Here you would typically add the email to your newsletter list
+                    console.log("Newsletter signup:", email)
+                    // Show a success message
+                    setFormState({
+                      success: true,
+                      message: "Thank you for subscribing to our newsletter!",
+                    })
+                    // Reset the form
+                    const form = document.getElementById("newsletter-form") as HTMLFormElement
+                    if (form) form.reset()
+                  }
+                }}
+                id="newsletter-form"
+                className="space-y-4"
+              >
                 <input
                   type="email"
+                  name="email"
                   placeholder="Your email"
+                  required
                   className="w-full px-4 py-2 rounded-md bg-white/10 border border-white/20 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-white"
                 />
-                <Button className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">Subscribe</Button>
+                <Button type="submit" className="w-full bg-yellow-500 hover:bg-yellow-600 text-black">
+                  Subscribe
+                </Button>
               </form>
             </div>
           </div>
