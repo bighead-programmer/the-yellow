@@ -822,7 +822,8 @@ export default function Home() {
                     </div>
                     <div>
                       <h4 className="font-medium">Phone</h4>
-                      <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                      <p className="text-muted-foreground">+263 77 993 1219</p>
+                       <p className="text-muted-foreground">+263 77 682 7857</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
