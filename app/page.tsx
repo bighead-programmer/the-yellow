@@ -577,7 +577,7 @@ export default function Home() {
             <ProjectCard
               title="Cosmic Voyager"
               category="Game Development"
-              image="/placeholder.svg?height=400&width=600"
+              image="https://www.shutterstock.com/image-illustration/kid-standing-front-glowing-purple-600nw-2023111790.jpg?height=400&width=600"
               delay={0.1}
             />
             <ProjectCard
