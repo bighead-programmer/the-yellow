@@ -575,38 +575,38 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ProjectCard
-              title="Cosmic Voyager"
-              category="Game Development"
+              title="Bun - AI Voice Assistant"
+              category="Machine Learning & AI Tools"
               image="https://i.ibb.co/dsLgTHJg/Black-White-Illustrative-Easter-Gift-Shop-Logo.png?height=400&width=600"
               delay={0.1}
             />
             <ProjectCard
-              title="FinTech Dashboard"
-              category="Web Application"
-              image="/placeholder.svg?height=400&width=600"
+              title="Epic Jam - Gaming Escrow Service"
+              category="Game Development"
+              image="https://i.ibb.co/6JgJ66yV/Pink-Black-Grunge-Game-Store-Logo.png?height=400&width=600"
               delay={0.2}
             />
             <ProjectCard
-              title="Smart Home System"
+              title="Esent - Event Planning Multivendor store"
               category="Software Development"
-              image="/placeholder.svg?height=400&width=600"
+              image="https://i.ibb.co/q3JkLtLT/Esent-Events-Logo-2.png?height=400&width=600"
               delay={0.3}
             />
             <ProjectCard
-              title="E-commerce Platform"
-              category="Web Development"
-              image="/placeholder.svg?height=400&width=600"
+              title="Sashi - Food E-commerce"
+              category="Software Development"
+              image="https://i.ibb.co/S4z7pbX0/Red-and-Yellow-Simple-Modern-Burger-Restaurant-Logo.png?height=400&width=600"
               delay={0.4}
             />
             <ProjectCard
-              title="AR Navigation App"
-              category="Mobile Development"
+              title="Farm Crazy"
+              category="Game Development"
               image="/placeholder.svg?height=400&width=600"
               delay={0.5}
             />
             <ProjectCard
-              title="Virtual Reality Experience"
-              category="Game Development"
+              title="Health Blob"
+              category="Software Engineering"
               image="/placeholder.svg?height=400&width=600"
               delay={0.6}
             />
