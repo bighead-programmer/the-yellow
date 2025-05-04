@@ -639,7 +639,7 @@ export default function Home() {
             >
               <div className="aspect-square rounded-2xl overflow-hidden">
                 <img
-                  src="/placeholder.svg?height=600&width=600"
+                  src="https://i.ibb.co/chDkCPVG/Untitled-design.gif?height=600&width=600"
                   alt="The Yellow Team"
                   className="w-full h-full object-cover"
                 />
